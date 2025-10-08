@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_gradient"
+    android:padding="16dp">
+
+    <!-- Display panel -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/panel_bg"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvExpression"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/display_hint"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/tvResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/display_text"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:text="0" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="12dp"/>
+
+    <!-- Keypad -->
+    <GridLayout
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alignmentMode="alignMargins"
+        android:columnCount="4"
+        android:rowCount="6"
+        android:useDefaultMargins="true">
+
+        <!-- Row: Memory -->
+        <com.google.android.material.button.MaterialButton
+            style="@style/ProCalcButton"
+            android:text="MC"
+            android:onClick="onMemory"
+            app:backgroundTint="@color/btn_func"
+            android:textColor="@color/btn_func_text"
+            app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="MR" android:onClick="onMemory" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="M+" android:onClick="onMemory" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="M-" android:onClick="onMemory" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+
+        <!-- Row: Functions -->
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="("  android:onClick="onParen" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text=")"  android:onClick="onParen" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="AC" android:onClick="onClear" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="DEL" android:onClick="onDelete" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+
+        <!-- Row: 7 8 9 ÷ -->
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="7" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="8" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="9" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="÷" android:onClick="onOperator" app:backgroundTint="@color/btn_op" android:textColor="@color/btn_op_text" app:layout_columnWeight="1"/>
+
+        <!-- Row: 4 5 6 × -->
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="4" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="5" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="6" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="×" android:onClick="onOperator" app:backgroundTint="@color/btn_op" android:textColor="@color/btn_op_text" app:layout_columnWeight="1"/>
+
+        <!-- Row: 1 2 3 - -->
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="1" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="2" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="3" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="−" android:onClick="onOperator" app:backgroundTint="@color/btn_op" android:textColor="@color/btn_op_text" app:layout_columnWeight="1"/>
+
+        <!-- Row: 0 . + = -->
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="0" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="2" app:layout_columnSpan="2"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="." android:onClick="onDot"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="+" android:onClick="onOperator" app:backgroundTint="@color/btn_op" android:textColor="@color/btn_op_text" app:layout_columnWeight="1"/>
+
+        <!-- Row: extra ops √ x² 1/x %  =  -->
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="√" android:onClick="onFunc" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="x²" android:onClick="onFunc" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="1/x" android:onClick="onFunc" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
+        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton"
+            android:text="="
+            android:onClick="onEquals"
+            app:backgroundTint="@color/btn_eq"
+            android:textColor="@color/btn_eq_text"
+            app:layout_columnWeight="1"/>
+    </GridLayout>
+</LinearLayout>
