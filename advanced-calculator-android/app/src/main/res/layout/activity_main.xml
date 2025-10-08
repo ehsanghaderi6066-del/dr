@@ -7,7 +7,7 @@
     android:background="@drawable/bg_gradient"
     android:padding="16dp">
 
-    <!-- نمایش عبارت و نتیجه -->
+    <!-- پنل نمایش -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,14 +36,14 @@
 
     <View android:layout_width="match_parent" android:layout_height="12dp"/>
 
-    <!-- ✅ GridLayout اندروید‌ایکس (برای صفات app:layout_*) -->
+    <!-- GridLayout اندروید‌ایکس برای کلیدها -->
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alignmentMode="alignMargins"
         android:columnCount="4"
-        android:rowCount="6"
+        android:rowCount="7"
         android:useDefaultMargins="true">
 
         <!-- Row: Memory -->
@@ -76,7 +76,7 @@
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="6" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="×" android:onClick="onOperator" app:backgroundTint="@color/btn_op" android:textColor="@color/btn_op_text" app:layout_columnWeight="1"/>
 
-        <!-- Row: 1 2 3 - -->
+        <!-- Row: 1 2 3 − -->
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="1" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="2" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="3" android:onClick="onDigit"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
