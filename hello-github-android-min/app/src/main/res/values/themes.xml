@@ -1,4 +1,0 @@
-<resources>
-  <!-- تم ساده و همیشه موجود -->
-  <style name="Theme.HelloGitHub" parent="Theme.AppCompat.Light.NoActionBar"/>
-</resources>
