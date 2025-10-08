@@ -7,7 +7,7 @@
     android:background="@drawable/bg_gradient"
     android:padding="16dp">
 
-    <!-- Display panel -->
+    <!-- نمایش عبارت و نتیجه -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,8 +36,8 @@
 
     <View android:layout_width="match_parent" android:layout_height="12dp"/>
 
-    <!-- Keypad -->
-    <GridLayout
+    <!-- ✅ GridLayout اندروید‌ایکس (برای صفات app:layout_*) -->
+    <androidx.gridlayout.widget.GridLayout
         android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,15 +87,16 @@
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="." android:onClick="onDot"  app:backgroundTint="@color/btn_number" android:textColor="@color/btn_number_text" app:layout_columnWeight="1"/>
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="+" android:onClick="onOperator" app:backgroundTint="@color/btn_op" android:textColor="@color/btn_op_text" app:layout_columnWeight="1"/>
 
-        <!-- Row: extra ops √ x² 1/x %  =  -->
+        <!-- Row: extra ops √ x² 1/x  = -->
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="√" android:onClick="onFunc" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="x²" android:onClick="onFunc" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
         <com.google.android.material.button.MaterialButton style="@style/ProCalcButton" android:text="1/x" android:onClick="onFunc" app:backgroundTint="@color/btn_func" android:textColor="@color/btn_func_text" app:layout_columnWeight="1"/>
-        <com.google.android.material.button.MaterialButton style="@style/ProCalcButton"
+        <com.google.android.material.button.MaterialButton
+            style="@style/ProCalcButton"
             android:text="="
             android:onClick="onEquals"
             app:backgroundTint="@color/btn_eq"
             android:textColor="@color/btn_eq_text"
             app:layout_columnWeight="1"/>
-    </GridLayout>
+    </androidx.gridlayout.widget.GridLayout>
 </LinearLayout>
