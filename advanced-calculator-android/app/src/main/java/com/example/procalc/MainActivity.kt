@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvResult: TextView
 
     private var memory: Double = 0.0
-    private var expression: StringBuilder = StringBuilder()
+    private val expression = StringBuilder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         tvResult = findViewById(R.id.tvResult)
     }
 
+    // ---------- UI handlers ----------
     fun onDigit(v: View) {
         val t = (v as Button).text.toString()
         appendToken(t)
@@ -34,12 +35,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onOperator(v: View) {
-        val op = (v as Button).text.toString()
-        val token = when (op) {
+        val opLabel = (v as Button).text.toString()
+        val token = when (opLabel) {
             "×" -> "*"
             "÷" -> "/"
             "−" -> "-"
-            else -> op
+            else -> opLabel
         }
         appendToken(token, isOperator = true)
     }
@@ -51,15 +52,14 @@ class MainActivity : AppCompatActivity() {
 
     fun onFunc(v: View) {
         when ((v as Button).text.toString()) {
-            "√" -> applyUnary { sqrt(it) }
+            "√"  -> applyUnary { sqrt(it) }
             "x²" -> applyUnary { it.pow(2) }
-            "1/x" -> applyUnary { if (it == 0.0) Double.NaN else 1.0 / it }
+            "1/x"-> applyUnary { if (it == 0.0) Double.NaN else 1.0 / it }
         }
     }
 
     fun onEquals(@Suppress("UNUSED_PARAMETER") v: View) {
-        val exp = tvExpression.text.toString()
-        val res = evaluate(exp)
+        val res = evaluate(tvExpression.text.toString())
         tvResult.text = format(res)
     }
 
@@ -79,18 +79,9 @@ class MainActivity : AppCompatActivity() {
     fun onMemory(v: View) {
         when ((v as Button).text.toString()) {
             "MC" -> memory = 0.0
-            "MR" -> {
-                val m = format(memory)
-                appendToken(m)
-            }
-            "M+" -> {
-                val valNow = evaluate(tvExpression.text.toString())
-                if (!valNow.isNaN()) memory += valNow
-            }
-            "M-" -> {
-                val valNow = evaluate(tvExpression.text.toString())
-                if (!valNow.isNaN()) memory -= valNow
-            }
+            "MR" -> appendToken(format(memory))
+            "M+" -> evaluate(tvExpression.text.toString()).let { if (!it.isNaN()) memory += it }
+            "M-" -> evaluate(tvExpression.text.toString()).let { if (!it.isNaN()) memory -= it }
         }
     }
 
@@ -109,12 +100,12 @@ class MainActivity : AppCompatActivity() {
         tvExpression.text = expression.toString()
     }
 
-    // --- Simple Shunting Yard evaluator supporting + - * / ^ and parentheses ---
+    // ---------- Expression evaluator (Shunting Yard + RPN) ----------
     private fun precedence(op: String): Int = when (op) {
         "+", "-" -> 1
         "*", "/" -> 2
-        "^" -> 3
-        else -> 0
+        "^"      -> 3
+        else     -> 0
     }
 
     private fun applyOp(a: Double, b: Double, op: String): Double = when (op) {
@@ -128,41 +119,42 @@ class MainActivity : AppCompatActivity() {
 
     private fun evaluate(input: String): Double {
         if (input.isBlank()) return 0.0
+
         val tokens = tokenize(input)
-        val output = ArrayDeque<String>()
-        val ops = ArrayDeque<String>()
+        val output = ArrayDeque<String>()   // RPN queue
+        val ops    = ArrayDeque<String>()   // operator stack
 
         for (t in tokens) {
             when {
                 t.isNumber() -> output.addLast(t)
-                t == "(" -> ops.addLast(t)
-                t == ")" -> {
-                    while (ops.isNotEmpty() && ops.last() != "(") {
-                        output.addLast(ops.removeLast())
+                t == "("     -> ops.addLast(t)
+                t == ")"     -> {
+                    while (ops.peekLast() != null && ops.peekLast() != "(") {
+                        output.addLast(ops.pollLast())
                     }
-                    if (ops.isNotEmpty() && ops.last() == "(") ops.removeLast()
+                    if (ops.peekLast() == "(") ops.pollLast()
                 }
                 else -> { // operator
-                    while (ops.isNotEmpty() && precedence(ops.last()) >= precedence(t)) {
-                        output.addLast(ops.removeLast())
+                    while (ops.peekLast() != null && precedence(ops.peekLast()) >= precedence(t)) {
+                        output.addLast(ops.pollLast())
                     }
                     ops.addLast(t)
                 }
             }
         }
-        while (ops.isNotEmpty()) output.addLast(ops.removeLast())
+        while (ops.peekLast() != null) output.addLast(ops.pollLast())
 
         val stack = ArrayDeque<Double>()
         for (t in output) {
             if (t.isNumber()) {
                 stack.addLast(t.toDouble())
             } else {
-                val b = stack.removeLastOrNull() ?: return Double.NaN
-                val a = stack.removeLastOrNull() ?: return Double.NaN
+                val b = stack.pollLast() ?: return Double.NaN
+                val a = stack.pollLast() ?: return Double.NaN
                 stack.addLast(applyOp(a, b, t))
             }
         }
-        return stack.lastOrNull() ?: Double.NaN
+        return stack.peekLast() ?: Double.NaN
     }
 
     private fun tokenize(s: String): List<String> {
@@ -179,17 +171,15 @@ class MainActivity : AppCompatActivity() {
                     tokens.add(s.substring(start, i))
                 }
                 c in charArrayOf('+', '-', '*', '/', '^', '(', ')') -> {
-                    tokens.add(c.toString())
-                    i++
+                    tokens.add(c.toString()); i++
                 }
-                else -> i++ // ignore unknowns
+                else -> i++ // skip unknown
             }
         }
         return tokens
     }
 
-    private fun String.isNumber(): Boolean =
-        this.toDoubleOrNull() != null
+    private fun String.isNumber(): Boolean = this.toDoubleOrNull() != null
 
     private fun format(x: Double): String =
         if (x.isNaN()) "Error" else if (x % 1.0 == 0.0) x.toLong().toString() else x.toString()
