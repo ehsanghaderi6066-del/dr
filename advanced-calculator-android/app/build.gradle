@@ -28,13 +28,13 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
+
+    // در صورت حساسیت محیط، می‌توانی این خط را هم باز کنی تا حتی اگر Lint خطا داد بیلد قطع نشود:
+    // lint { abortOnError = false }
 }
 
 dependencies {
     implementation "androidx.core:core-ktx:1.13.1"
     implementation "androidx.appcompat:appcompat:1.7.0"
     implementation "com.google.android.material:material:1.12.0"
-
-    // لازم برای app:layout_* در GridLayout
-    implementation "androidx.gridlayout:gridlayout:1.0.0"
 }
